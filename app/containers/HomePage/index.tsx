@@ -4,105 +4,66 @@
  * This is the first thing users see of our App, at the '/' route
  */
 
-import React, { useEffect } from 'react';
-import { Helmet } from 'react-helmet';
-import { FormattedMessage } from 'react-intl';
-import { useDispatch, useSelector } from 'react-redux';
-import { createStructuredSelector } from 'reselect';
+import React from 'react';
+import { makeStyles } from '@material-ui/core/styles';
+import { Link } from 'react-router-dom';
 
-import { useInjectReducer } from 'utils/injectReducer';
-import { useInjectSaga } from 'utils/injectSaga';
-import { makeSelectError, makeSelectLoading } from 'containers/App/selectors';
-import H2 from 'components/H2';
-import AtPrefix from './AtPrefix';
-import CenteredSection from './CenteredSection';
-import Form from './Form';
-import Input from './Input';
-import Section from './Section';
-import messages from './messages';
-import { changeUsername } from './actions';
-import { makeSelectUsername } from './selectors';
-import reducer from './reducer';
-import saga from './saga';
+import { Button, Paper, Typography } from '@material-ui/core';
+import Header from 'components/Header';
 
-const key = 'home';
-
-const stateSelector = createStructuredSelector({
-  username: makeSelectUsername(),
-  loading: makeSelectLoading(),
-  error: makeSelectError(),
-});
+const useStyles = makeStyles(theme => ({
+  layout: {
+    width: 'auto',
+    marginLeft: theme.spacing(2),
+    marginRight: theme.spacing(2),
+    [theme.breakpoints.up(600 + theme.spacing(2) * 2)]: {
+      width: 600,
+      marginLeft: 'auto',
+      marginRight: 'auto',
+    },
+    paper: {
+      marginTop: theme.spacing(3),
+      marginBottom: theme.spacing(3),
+      // padding: theme.spacing(3),
+      padding: '24px',
+      [theme.breakpoints.up(600 + theme.spacing(3) * 2)]: {
+        marginTop: theme.spacing(6),
+        marginBottom: theme.spacing(6),
+        padding: theme.spacing(3),
+      },
+    },
+  },
+}));
 
 export default function HomePage() {
-  const { username, loading, error } = useSelector(stateSelector);
-
-  const dispatch = useDispatch();
-
-  // Not gonna declare event types here. No need. any is fine
-  const onChangeUsername = (evt: any) => dispatch(changeUsername(evt.target.value));
-  const onSubmitForm = (evt?: any) => {
-    if (evt !== undefined && evt.preventDefault) {
-      evt.preventDefault();
-    }
-    if (!username) {
-      return;
-    }
-  };
-
-  useInjectReducer({ key: key, reducer: reducer });
-  useInjectSaga({ key: key, saga: saga });
-
-  useEffect(() => {
-    // When initial state username is not null, submit the form to load repos
-    if (username && username.trim().length > 0) {
-      onSubmitForm();
-    }
-  }, []);
-
-  const reposListProps = {
-    loading: loading,
-    error: error,
-  };
-
+  const classes = useStyles();
   return (
-    <article>
-      <Helmet>
-        <title>Home Page</title>
-        <meta
-          name="description"
-          content="A React.js Boilerplate application homepage"
-        />
-      </Helmet>
-      <div>
-        <CenteredSection>
-          <H2>
-            <FormattedMessage {...messages.startProjectHeader} />
-          </H2>
-          <p>
-            <FormattedMessage {...messages.startProjectMessage} />
-          </p>
-        </CenteredSection>
-        <Section>
-          <H2>
-            <FormattedMessage {...messages.trymeHeader} />
-          </H2>
-          <Form onSubmit={onSubmitForm}>
-            <label htmlFor="username">
-              <FormattedMessage {...messages.trymeMessage} />
-              <AtPrefix>
-                <FormattedMessage {...messages.trymeAtPrefix} />
-              </AtPrefix>
-              <Input
-                id="username"
-                type="text"
-                placeholder="mxstbr"
-                value={username}
-                onChange={onChangeUsername}
-              />
-            </label>
-          </Form>
-        </Section>
+    <div className="page-containe grey-background-page">
+      <Header title="LEARN BASEBALL" />
+      <div className="page-content">
+        <main className={classes.layout}>
+          <Paper style={{ padding: '16px' }}>
+              <Typography
+                component="h5"
+                variant="h5"
+                align="center"
+              >
+                Welcome to learnbaseball.ca
+            </Typography>
+            <div style={{
+              marginTop: '12px',
+              display: 'flex',
+              justifyContent: 'center',
+            }}>
+              <Link to={'/quiz'}>
+                <Button variant="outlined" color="primary">
+                  Test your knowlege
+                </Button>
+              </Link>
+            </div>
+          </Paper>
+        </main>
       </div>
-    </article>
+    </div>
   );
 }
