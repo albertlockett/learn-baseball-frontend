@@ -1,6 +1,7 @@
 import React from 'react';
 import gql from 'graphql-tag';
 import { useQuery } from '@apollo/react-hooks';
+import _ from 'lodash';
 
 import styled from 'styles/styled-components';
 import { makeStyles } from '@material-ui/core/styles';
@@ -26,6 +27,7 @@ const GET_TEAMS = gql`
     division
     league
     name
+    code
   }
 }
 `;
@@ -72,8 +74,12 @@ const chooseRandomPlayer = players => {
 
 const chooseTeamOptions = ({ player, teams }): ITeam[] => {
   const teamOptions = [
-    teams.find(({ name }) => player.team === name),
+    teams.find(({ code }) => player.team === code),
   ];
+
+  if (teamOptions[0] === undefined) {
+    console.warn('Could not find team for code: ' + player.team);
+  }
 
   while (teamOptions.length < 4) {
     const randomTeam = teams[Math.floor(Math.random() * teams.length)];
@@ -82,7 +88,7 @@ const chooseTeamOptions = ({ player, teams }): ITeam[] => {
     }
   }
 
-  return teamOptions;
+  return _.shuffle(teamOptions);
 };
 
 interface IPlayer {
@@ -92,6 +98,7 @@ interface IPlayer {
 
 interface ITeam {
   name: string;
+  code: string;
 }
 
 export default function QuizPage() {
@@ -115,6 +122,7 @@ export default function QuizPage() {
       setAnswerRevealed(false);
       setPlayer(null);
       setTeamOptions(null);
+      setSelectedTeam('');
     } else {
       setAnswerRevealed(true);
     }
@@ -160,7 +168,6 @@ export default function QuizPage() {
   }
 
   const teamOptionRadios = (teamOptions || []).map(team => {
-    console.log({ team });
     return (
       <div key={team.name}>
         <label>
@@ -168,7 +175,7 @@ export default function QuizPage() {
         <Typography style={{ display: 'inline-block'}}>{team.name.toUpperCase()}</Typography>
         {
           answerRevealed && (
-            player != null && player.team === team.name
+            player != null && player.team === team.code
               ? <Check style={{ color: 'green' }}/>
               : <Clear style={{ color: 'red' }}/>
           )
