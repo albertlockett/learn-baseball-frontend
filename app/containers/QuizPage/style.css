@@ -1,0 +1,13 @@
+.quiz-page .quiz-answer-row {
+  box-sizing: border-box;
+  border: 1px solid transparent;
+  cursor: pointer;
+}
+
+.quiz-page .quiz-answer-row p {
+  cursor: pointer;
+}
+
+.quiz-page .quiz-answer-row:hover {
+  border: 1px solid rgb(245, 0, 87);
+}

@@ -9,6 +9,9 @@ import { Button, Paper, Typography, Radio } from '@material-ui/core';
 import { Check, Clear } from '@material-ui/icons';
 
 import Header from 'components/Header';
+import TeamLogo from 'components/TeamLogo';
+
+import './style.css';
 
 const GET_PLAYERS = gql`
 {
@@ -113,10 +116,6 @@ export default function QuizPage() {
   const [teamOptions, setTeamOptions] = React.useState<ITeam[] | null>(null);
   const [player, setPlayer] = React.useState<IPlayer | null>(null);
 
-  const handleChange = event => {
-    setSelectedTeam(event.target.value);
-  };
-
   const handleButtonClick = () => {
     if (answerRevealed) {
       setAnswerRevealed(false);
@@ -169,9 +168,20 @@ export default function QuizPage() {
 
   const teamOptionRadios = (teamOptions || []).map(team => {
     return (
-      <div key={team.name}>
+      <div key={team.name} className="quiz-answer-row" onClick={() => setSelectedTeam(team.name)}>
         <label>
-        <Radio  checked={team.name === selectedTeam} value={team.name} name="team" onClick={handleChange} />
+        <Radio  checked={team.name === selectedTeam} value={team.name} name="team" />
+        <div
+          style={{
+            display: 'inline-block',
+            height: '16px',
+            width: '16px',
+            marginRight: '12px',
+            position: 'relative',
+            top: '-2px',
+          }}>
+          <TeamLogo code={team.code} />
+        </div>
         <Typography style={{ display: 'inline-block'}}>{team.name.toUpperCase()}</Typography>
         {
           answerRevealed && (
@@ -186,7 +196,7 @@ export default function QuizPage() {
   });
 
   return (
-    <div className="page-container grey-background-page">
+    <div className="page-container grey-background-page quiz-page">
       <Header title="LEARN BASEBALL" />
       <div className="page-content">
         <main className={classes.layout}>
@@ -196,6 +206,7 @@ export default function QuizPage() {
                 component="h1"
                 variant="h4"
                 align="center"
+                style={{ cursor: 'pointer' }}
               >
                 {player != null && player.name}
               </Typography>
