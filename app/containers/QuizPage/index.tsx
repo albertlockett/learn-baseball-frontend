@@ -5,11 +5,12 @@ import _ from 'lodash';
 
 import styled from 'styles/styled-components';
 import { makeStyles } from '@material-ui/core/styles';
-import { Button, Paper, Typography, Radio } from '@material-ui/core';
+import { Button, Divider, Grid, Paper,  Radio, Typography } from '@material-ui/core';
 import { Check, Clear } from '@material-ui/icons';
 
 import Header from 'components/Header';
 import TeamLogo from 'components/TeamLogo';
+import QuizControls from './QuizControls';
 
 import './style.css';
 
@@ -199,28 +200,66 @@ export default function QuizPage() {
     <div className="page-container grey-background-page quiz-page">
       <Header title="LEARN BASEBALL" />
       <div className="page-content">
-        <main className={classes.layout}>
-          <Paper>
-            <ContentContainer>
-              <Typography
-                component="h1"
-                variant="h4"
-                align="center"
-                style={{ cursor: 'pointer' }}
+        <Grid container>
+          <Grid item md={4} xs={12}>
+            <Paper style={{ margin: '10px 24px', padding: '8px' }}>
+              <div
+                style={{
+                  textAlign: 'left',
+                  position: 'relative',
+                  paddingBottom: '8px',
+                  width: '100%',
+                }}
               >
-                {player != null && player.name}
-              </Typography>
-              <SelectContainer>
-                {teamOptionRadios}
-              </SelectContainer>
-              <Buttons>
-                <Button variant="outlined" color="primary" onClick={handleButtonClick}>
-                  {answerRevealed ? 'Next' : 'Check'}
-                </Button>
-              </Buttons>
-            </ContentContainer>
-          </Paper>
-        </main>
+                <Typography
+                    component="h1"
+                    variant="h5"
+                    align="center"
+                    style={{
+                      display: 'inline-block',
+                      textAlign: 'left',
+                      minWidth: '0',
+                    }}
+                >
+                  Team Roster Quiz
+                </Typography>
+                <div
+                  style={{
+                    position: 'absolute',
+                    right: 0,
+                    bottom: '8px',
+                  }}
+                >
+                  <b>0/1</b>
+                </div>
+              </div>
+              <Divider />
+              <QuizControls />
+            </Paper>
+          </Grid>
+          <Grid item md={4} xs={12}>
+            <Paper style={{ margin: '24px' }}>
+              <ContentContainer>
+                <Typography
+                  component="h1"
+                  variant="h4"
+                  align="center"
+                  style={{ cursor: 'pointer' }}
+                >
+                  {player != null && player.name}
+                </Typography>
+                <SelectContainer>
+                  {teamOptionRadios}
+                </SelectContainer>
+                <Buttons>
+                  <Button variant="outlined" color="primary" onClick={handleButtonClick}>
+                    {answerRevealed ? 'Next' : 'Check'}
+                  </Button>
+                </Buttons>
+              </ContentContainer>
+            </Paper>
+          </Grid>
+        </Grid>
       </div>
     </div>
   );
