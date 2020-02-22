@@ -15,8 +15,11 @@ import QuizControls from './QuizControls';
 import './style.css';
 
 const GET_PLAYERS = gql`
-{
-  players {
+query getPlayers($teams: [TeamCode]){
+  players(
+    teams: $teams
+    maxFantasyRank: 20
+  ) {
     name
     position
     team
@@ -35,42 +38,6 @@ const GET_TEAMS = gql`
   }
 }
 `;
-
-const useStyles = makeStyles(theme => ({
-  layout: {
-    width: 'auto',
-    marginLeft: theme.spacing(2),
-    marginRight: theme.spacing(2),
-    [theme.breakpoints.up(600 + theme.spacing(2) * 2)]: {
-      width: 600,
-      marginLeft: 'auto',
-      marginRight: 'auto',
-    },
-    paper: {
-      marginTop: theme.spacing(3),
-      marginBottom: theme.spacing(3),
-      // padding: theme.spacing(3),
-      padding: '24px',
-      [theme.breakpoints.up(600 + theme.spacing(3) * 2)]: {
-        marginTop: theme.spacing(6),
-        marginBottom: theme.spacing(6),
-        padding: theme.spacing(3),
-      },
-    },
-    select: {
-      padding: '16px',
-    },
-    buttons: {
-      display: 'flex',
-      marginTop: '12px',
-      justifyContent: 'flex-end',
-    },
-    button: {
-      marginTop: theme.spacing(3),
-      marginLeft: theme.spacing(1),
-    },
-  },
-}));
 
 const chooseRandomPlayer = players => {
   return players[Math.floor(Math.random() * players.length)];
@@ -98,19 +65,25 @@ const chooseTeamOptions = ({ player, teams }): ITeam[] => {
 interface IPlayer {
   name: string;
   team: string;
+  position: string;
 }
 
 interface ITeam {
+  city: string;
   name: string;
   code: string;
+  division: string;
+  league: string;
 }
 
 export default function QuizPage() {
 
-  const playersQuery = useQuery(GET_PLAYERS);
+  const [selectedTeams, setSelectedTeams] = React.useState([
+    'ARI', 'ATL', 'BAL', 'BOS', 'CHC', 'CIN', 'CLE', 'COL', 'CWS', 'DET', 'HOU', 'KC', 'LAA', 'LAD', 'MIA', 'MIL',
+    'MIN', 'NYM', 'NYY', 'OAK', 'PHI', 'PIT', 'SD', 'SEA', 'SF', 'STL', 'TB', 'TEX', 'TOR', 'WSH',
+  ]);
+  const playersQuery = useQuery(GET_PLAYERS, { variables: { teams: selectedTeams } });
   const teamsQuery = useQuery(GET_TEAMS);
-
-  const classes = useStyles();
 
   const [selectedTeam, setSelectedTeam] = React.useState('');
   const [answerRevealed, setAnswerRevealed] = React.useState(false);
@@ -234,7 +207,11 @@ export default function QuizPage() {
                 </div>
               </div>
               <Divider />
-              <QuizControls />
+              <QuizControls
+                teams={teams}
+                selectedTeams={selectedTeams}
+                setSelectedTeams={setSelectedTeams}
+              />
             </Paper>
           </Grid>
           <Grid item md={4} xs={12}>
@@ -246,7 +223,7 @@ export default function QuizPage() {
                   align="center"
                   style={{ cursor: 'pointer' }}
                 >
-                  {player != null && player.name}
+                  {player != null && (player.name + ` (${player.position})`)}
                 </Typography>
                 <SelectContainer>
                   {teamOptionRadios}
