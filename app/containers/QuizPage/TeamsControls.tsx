@@ -56,7 +56,7 @@ export default function TeamsControls(props) {
     return acc;
   }, {});
 
-  const toggleSelectedTeam = code => {
+  const toggleSelectedTeam = (code: string) => {
     if (modalSelectedTeams.includes(code)) {
       setModalSelectedTeams(_.without(modalSelectedTeams, code));
     } else {

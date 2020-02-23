@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 
 import ExpandableSection from 'components/ExpandableSection';
 import { Divider } from '@material-ui/core';
+import FantasyRankControls from './FantasyRankControls';
 import TeamsControls from './TeamsControls';
 
 export default function QuizControls(props) {
@@ -16,13 +17,20 @@ export default function QuizControls(props) {
       />
       </ExpandableSection>
       <Divider />
-      <ExpandableSection title="Fantasy Ranking" />
+      <ExpandableSection title="Fantasy Ranking">
+        <FantasyRankControls
+          maxFantasyRank={props.maxFantasyRank}
+          setMaxFantasyRank={props.setMaxFantasyRank}
+        />
+      </ExpandableSection>
       <Divider />
     </Fragment>
   );
 }
 
 QuizControls.propTypes = {
+  maxFantasyRank: PropTypes.number.isRequired,
+  setMaxFantasyRank: PropTypes.func.isRequired,
   selectedTeams: PropTypes.arrayOf(PropTypes.string),
   setSelectedTeams: PropTypes.func.isRequired,
   teams: PropTypes.arrayOf(

@@ -15,10 +15,13 @@ import QuizControls from './QuizControls';
 import './style.css';
 
 const GET_PLAYERS = gql`
-query getPlayers($teams: [TeamCode]){
+query getPlayers(
+    $teams: [TeamCode]
+    $maxFantasyRank: Int
+  ){
   players(
     teams: $teams
-    maxFantasyRank: 20
+    maxFantasyRank: $maxFantasyRank
   ) {
     name
     position
@@ -78,11 +81,14 @@ interface ITeam {
 
 export default function QuizPage() {
 
+  const [maxFantasyRank, setMaxFantasyRank] = React.useState(20);
   const [selectedTeams, setSelectedTeams] = React.useState([
     'ARI', 'ATL', 'BAL', 'BOS', 'CHC', 'CIN', 'CLE', 'COL', 'CWS', 'DET', 'HOU', 'KC', 'LAA', 'LAD', 'MIA', 'MIL',
     'MIN', 'NYM', 'NYY', 'OAK', 'PHI', 'PIT', 'SD', 'SEA', 'SF', 'STL', 'TB', 'TEX', 'TOR', 'WSH',
   ]);
-  const playersQuery = useQuery(GET_PLAYERS, { variables: { teams: selectedTeams } });
+
+  console.log({ maxFantasyRank });
+  const playersQuery = useQuery(GET_PLAYERS, { variables: { teams: selectedTeams, maxFantasyRank } });
   const teamsQuery = useQuery(GET_TEAMS);
 
   const [selectedTeam, setSelectedTeam] = React.useState('');
@@ -115,7 +121,7 @@ export default function QuizPage() {
     justify-content: flex-end;
   `;
 
-  if (playersQuery.loading || teamsQuery.loading) {
+  if (teamsQuery.loading) {
     return <h1>Loading</h1>;
   }
 
@@ -128,7 +134,10 @@ export default function QuizPage() {
     );
   }
 
-  const { players } = playersQuery.data;
+  const players = _.get(playersQuery, ['data', 'players'], null);
+  if (!players) {
+    return <div />;
+  }
   if (!player) {
     setPlayer(chooseRandomPlayer(players));
   }
@@ -211,6 +220,8 @@ export default function QuizPage() {
                 teams={teams}
                 selectedTeams={selectedTeams}
                 setSelectedTeams={setSelectedTeams}
+                maxFantasyRank={maxFantasyRank}
+                setMaxFantasyRank={setMaxFantasyRank}
               />
             </Paper>
           </Grid>
