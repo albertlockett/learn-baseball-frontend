@@ -11,11 +11,13 @@ const ngrok =
   (isDev && process.env.ENABLE_TUNNEL) || argv.tunnel
     ? require('ngrok')
     : false;
-const { resolve } = require('path');
+const { resolve, join } = require('path');
 const app = express();
 
 // If you need a backend, e.g. an API, add your custom backend-specific middleware here
 // app.use('/api', myApi);
+
+app.use('/headshots/*.jpg', express.static(join(__dirname, 'build', 'headshots')))
 
 // In production we need to pass these values in instead of relying on webpack
 setup(app, {

@@ -12,10 +12,58 @@
   border: 1px solid rgb(245, 0, 87);
 }
 
-
 .quiz-page-choose-teams-modal {
   background-color: white;
   margin: 32px;
   padding: 16px 24px;
   font-size: 16px;
+}
+
+.quiz-page .answer-details {
+  padding: 16px;
+  display: grid;
+  grid-template-columns: auto auto;
+  grid-gap: 4px;
+  height: 300px;
+}
+
+.quiz-page .answer-details .pre-revealed {
+  font-size: 175px;
+  line-height: 175px;
+  justify-self: center;
+  grid-column: span 2;
+  color: #bebebe;
+  cursor: pointer;
+}
+
+.quiz-page .answer-details .reveal-answer {
+  justify-self: center;
+  grid-column: span 2;
+  color: #aaa;
+  cursor: pointer;
+}
+
+.quiz-page .answer-details .headshot-container {
+  justify-self: center;
+}
+
+.quiz-page .answer-details .headshot {
+  border: 2px solid rgb(5, 27, 57);
+  /* border-radius: 4px; */
+  /* box-sizing: border-box; */
+  width: 150px;
+}
+
+.quiz-page .answer-details .stats .name {
+  font-size: 16px;
+  font-weight: 800;
+}
+
+.quiz-page .answer-details .stats .position-team {
+  font-size: 16px;
+}
+
+.quiz-page .answer-details .stats .label {
+  font-weight: 800;
+  margin-right: 6px;
 }

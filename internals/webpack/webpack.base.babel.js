@@ -5,6 +5,7 @@
 const path = require('path');
 const webpack = require('webpack');
 
+const CopyPlugin = require('copy-webpack-plugin');
 const ForkTsCheckerWebpackPlugin = require('fork-ts-checker-webpack-plugin');
 
 module.exports = options => ({
@@ -122,6 +123,13 @@ module.exports = options => ({
       NODE_ENV: 'development',
     }),
     new ForkTsCheckerWebpackPlugin({ checkSyntacticErrors: true }),
+    new CopyPlugin([
+      { 
+        from: path.resolve(process.cwd(), 'app', 'images', 'headshots', '*'),
+        to: path.resolve(process.cwd(), 'build', 'headshots'),
+        flatten: true,
+      },
+    ]),
   ]),
   resolve: {
     modules: ['node_modules', 'app'],

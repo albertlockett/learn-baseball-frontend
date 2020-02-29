@@ -10,6 +10,7 @@ import { Check, Clear } from '@material-ui/icons';
 
 import Header from 'components/Header';
 import TeamLogo from 'components/TeamLogo';
+import AnswerDetails from './AnswerDetails';
 import QuizControls from './QuizControls';
 
 import './style.css';
@@ -79,6 +80,20 @@ interface ITeam {
   league: string;
 }
 
+const ContentContainer = styled.div`
+padding: 16px;
+`;
+
+const SelectContainer = styled.div`
+padding-top: 16px;
+`;
+
+const Buttons = styled.div`
+display: flex;
+padding-top: 12px;
+justify-content: flex-end;
+`;
+
 export default function QuizPage() {
 
   const [maxFantasyRank, setMaxFantasyRank] = React.useState(20);
@@ -106,20 +121,6 @@ export default function QuizPage() {
       setAnswerRevealed(true);
     }
   };
-
-  const ContentContainer = styled.div`
-    padding: 16px;
-  `;
-
-  const SelectContainer = styled.div`
-    padding-top: 16px;
-  `;
-
-  const Buttons = styled.div`
-    display: flex;
-    padding-top: 12px;
-    justify-content: flex-end;
-  `;
 
   if (teamsQuery.loading) {
     return <h1>Loading</h1>;
@@ -226,7 +227,7 @@ export default function QuizPage() {
             </Paper>
           </Grid>
           <Grid item md={4} xs={12}>
-            <Paper style={{ margin: '24px' }}>
+            <Paper style={{ margin: '10px 24px' }}>
               <ContentContainer>
                 <Typography
                   component="h1"
@@ -245,6 +246,11 @@ export default function QuizPage() {
                   </Button>
                 </Buttons>
               </ContentContainer>
+            </Paper>
+          </Grid>
+          <Grid item md={4} xs={12}>
+            <Paper style={{ margin: '10px 24px' }}>
+              <AnswerDetails revealed={answerRevealed} player={player} />
             </Paper>
           </Grid>
         </Grid>
