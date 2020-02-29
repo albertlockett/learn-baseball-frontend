@@ -109,6 +109,8 @@ export default function QuizPage() {
   const [answerRevealed, setAnswerRevealed] = React.useState(false);
   const [teamOptions, setTeamOptions] = React.useState<ITeam[] | null>(null);
   const [player, setPlayer] = React.useState<IPlayer | null>(null);
+  const [countQuestions, setCountQuestions] = React.useState<number>(0);
+  const [countCorrect, setCountCorrect] = React.useState<number>(0);
 
   const handleButtonClick = () => {
     if (answerRevealed) {
@@ -118,6 +120,10 @@ export default function QuizPage() {
       setSelectedTeam('');
     } else {
       setAnswerRevealed(true);
+      setCountQuestions(countQuestions + 1);
+      if (player != null && selectedTeam === player.team) {
+        setCountCorrect(countCorrect + 1);
+      }
     }
   };
 
@@ -151,9 +157,9 @@ export default function QuizPage() {
 
   const teamOptionRadios = (teamOptions || []).map(team => {
     return (
-      <div key={team.name} className="quiz-answer-row" onClick={() => setSelectedTeam(team.name)}>
+      <div key={team.name} className="quiz-answer-row" onClick={() => setSelectedTeam(team.code)}>
         <label>
-        <Radio  checked={team.name === selectedTeam} value={team.name} name="team" />
+        <Radio  checked={team.code === selectedTeam} value={team.name} name="team" />
         <div
           style={{
             display: 'inline-block',
@@ -212,7 +218,7 @@ export default function QuizPage() {
                     bottom: '8px',
                   }}
                 >
-                  <b>0/1</b>
+                  <b>{countCorrect}/{countQuestions}</b>
                 </div>
               </div>
               <Divider />

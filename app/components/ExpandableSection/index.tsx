@@ -11,13 +11,21 @@ const Container = styled.div`
   width: 100%;
 `;
 
+const HeaderContainer = styled.div`
+  cursor: pointer;
+  padding: 2px;
+  font-size: 16px;
+  &:hover {
+    text-decoration: underline;
+  }
+`;
+
 const IconContainer = styled.div`
   position: absolute;
   right: 0;
   top: 12px;
   width: 24px;
   height: 24px;
-  cursor: pointer;
 `;
 
 export default function ExpandableSection(props) {
@@ -26,22 +34,13 @@ export default function ExpandableSection(props) {
   return (
     <Container>
       <div>
-        <Typography
-            component="h1"
-            variant="h6"
-            align="center"
-            style={{
-              display: 'inline-block',
-              textAlign: 'left',
-              minWidth: '0',
-            }}
-          >
-            {props.title}
-          </Typography>
-          <IconContainer onClick={handleClickExpand}>
+        <HeaderContainer onClick={handleClickExpand}>
+          {props.title}
+          <IconContainer>
             {expanded ? <ExpandLess /> : <ExpandMore />}
           </IconContainer>
-          {expanded && <Fragment>{props.children}</Fragment>}
+        </HeaderContainer>
+        {expanded && <Fragment>{props.children}</Fragment>}
       </div>
     </Container>
   );

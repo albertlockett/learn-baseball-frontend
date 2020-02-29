@@ -62,7 +62,7 @@ export default function AnswerDetails(props) {
     <div className="answer-details">
       <div className={`answer-blocker ${answerBlockerClass}`}>
         <div className="pre-revealed">?</div>
-        <div className="reveal-answer">(Reveal Anwser)</div>
+        <div className="reveal-answer">(Give Up: Reveal Anwser)</div>
       </div>
       {body}
     </div>
