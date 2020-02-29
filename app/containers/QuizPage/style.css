@@ -25,22 +25,42 @@
   grid-template-columns: auto auto;
   grid-gap: 4px;
   height: 300px;
+  position: relative;
+}
+
+.quiz-page .answer-details .answer-blocker {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  display: grid;
+  grid-template-columns: auto;
+  background: white;
+  opacity: 1;
+  cursor: pointer;
+}
+
+.quiz-page .answer-details .answer-blocker.no-show {
+  display: none
+}
+
+.quiz-page .answer-details .answer-blocker.no-block {
+  opacity: 0;
+  transition: opacity 0.5s;
 }
 
 .quiz-page .answer-details .pre-revealed {
   font-size: 175px;
   line-height: 175px;
   justify-self: center;
-  grid-column: span 2;
-  color: #bebebe;
-  cursor: pointer;
+  color: #888;
 }
+
 
 .quiz-page .answer-details .reveal-answer {
   justify-self: center;
-  grid-column: span 2;
-  color: #aaa;
-  cursor: pointer;
+  color: #666;
 }
 
 .quiz-page .answer-details .headshot-container {

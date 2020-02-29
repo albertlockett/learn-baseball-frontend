@@ -102,7 +102,6 @@ export default function QuizPage() {
     'MIN', 'NYM', 'NYY', 'OAK', 'PHI', 'PIT', 'SD', 'SEA', 'SF', 'STL', 'TB', 'TEX', 'TOR', 'WSH',
   ]);
 
-  console.log({ maxFantasyRank });
   const playersQuery = useQuery(GET_PLAYERS, { variables: { teams: selectedTeams, maxFantasyRank } });
   const teamsQuery = useQuery(GET_TEAMS);
 
