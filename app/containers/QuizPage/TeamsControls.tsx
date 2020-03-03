@@ -169,7 +169,7 @@ export default function TeamsControls(props) {
               variant="h6"
               onClick={() => toggleSelectDivisionTeams(teams['NL']['east'])}
             >
-              <TeamModalOption style={{ cursor: 'pointer', maxWidth: '200px' }}> 
+              <TeamModalOption style={{ cursor: 'pointer', maxWidth: '200px' }}>
                 East
               </TeamModalOption>
             </Typography>

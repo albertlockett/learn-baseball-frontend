@@ -27,6 +27,14 @@ query getPlayers(
     name
     position
     team
+    bats
+    throws
+    debut
+    born
+    birthCity
+    birthState
+    birthCountry
+    playerID
   }
 }
 `;
@@ -70,6 +78,14 @@ interface IPlayer {
   name: string;
   team: string;
   position: string;
+  bats: string;
+  throws: string;
+  debut: string;
+  born: string;
+  birthCity: string;
+  birthState: string;
+  birthCountry: string;
+  playerID: string;
 }
 
 interface ITeam {
@@ -255,7 +271,7 @@ export default function QuizPage() {
           </Grid>
           <Grid item md={4} xs={12}>
             <Paper style={{ margin: '10px 24px' }}>
-              <AnswerDetails revealed={answerRevealed} player={player} />
+              <AnswerDetails revealed={answerRevealed} player={player} teams={teams} />
             </Paper>
           </Grid>
         </Grid>
