@@ -23,7 +23,7 @@ function formatBirthDetails(player) {
 }
 
 function formatDebut(player) {
-  return moment(player.debut).format('MM/DD/YYYY')
+  return moment(player.debut).format('MM/DD/YYYY');
 }
 
 function formatHandedNess(value) {
